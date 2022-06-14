@@ -19,9 +19,7 @@
 #define SIZE 2500
 
 void maximum(int volume[]);
-void minimum(int volume[]); 
-
-
+void minimum(int volume[]);
 
 int main()
 {
@@ -45,12 +43,10 @@ int main()
         printf("File opened\n");
         // File was opened
 
-        while(fscanf(fp, "%[^,],%f,%d,%d,%d", date[lines], &ratio[lines], &putVolume[lines], &callVolume, &totalVolume[lines]) == 5){
+        while(fscanf(fp, "%[^,],%f,%d,%d,%d", date[lines], &ratio[lines], &putVolume[lines], &callVolume[lines], &totalVolume[lines]) == 5){
+            printf("%s,%f,%d,%d,%d\n", date[lines], ratio[lines], putVolume[lines], callVolume[lines], totalVolume[lines]);
             lines++;
-            printf("%s,%f,%d,%d,%d\n", date[lines], ratio[lines], putVolume[lines], callVolume, totalVolume[lines]);
         }
-
-
 
     }
 
