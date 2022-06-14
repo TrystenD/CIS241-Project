@@ -16,8 +16,23 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define SIZE 2500
+
+void maximum(int volume[]);
+void minimum(int volume[]); 
+
+
+
 int main()
 {
+
+    int lines = 0;  // total lines in text file is currently 2331
+
+    char date[SIZE][10];    
+    float ratio[SIZE]; 
+    int putVolume[SIZE]; 
+    int callVolume[SIZE]; 
+    int totalVolume[SIZE]; 
 
     FILE *fp;
 
@@ -28,7 +43,15 @@ int main()
     else
     {
         printf("File opened\n");
-        // File was not opened
+        // File was opened
+
+        while(fscanf(fp, "%[^,],%f,%d,%d,%d", date[lines], &ratio[lines], &putVolume[lines], &callVolume, &totalVolume[lines]) == 5){
+            lines++;
+            printf("%s,%f,%d,%d,%d\n", date[lines], ratio[lines], putVolume[lines], callVolume, totalVolume[lines]);
+        }
+
+
+
     }
 
 
