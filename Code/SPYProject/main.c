@@ -19,9 +19,7 @@
 #define SIZE 2500
 
 void maximum(int volume[]);
-void minimum(int volume[]); 
-
-
+void minimum(int volume[]);
 
 int main()
 {
@@ -49,8 +47,6 @@ int main()
             printf("%s,%f,%d,%d,%d\n", date[lines], ratio[lines], putVolume[lines], callVolume[lines], totalVolume[lines]);
             lines++;
         }
-
-
 
     }
 
