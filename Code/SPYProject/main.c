@@ -18,7 +18,20 @@
 
 int main()
 {
-    printf("Hello world!\n");
+
+    FILE *fp;
+
+    if((fp = fopen("SPY241Project.txt", "r")) == NULL) // Open hardware.dat file for writing ("w")
+    {
+        puts("File could not be opened\n");
+    }
+    else
+    {
+        printf("File opened\n");
+        // File was not opened
+    }
+
+
     return 0;
 }
 
