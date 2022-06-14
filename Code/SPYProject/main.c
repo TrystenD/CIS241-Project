@@ -45,9 +45,9 @@ int main()
         printf("File opened\n");
         // File was opened
 
-        while(fscanf(fp, "%[^,],%f,%d,%d,%d", date[lines], &ratio[lines], &putVolume[lines], &callVolume, &totalVolume[lines]) == 5){
+        while(fscanf(fp, "%[^,],%f,%d,%d,%d", date[lines], &ratio[lines], &putVolume[lines], &callVolume[lines], &totalVolume[lines]) == 5){
             lines++;
-            printf("%s,%f,%d,%d,%d\n", date[lines], ratio[lines], putVolume[lines], callVolume, totalVolume[lines]);
+            printf("%s,%f,%d,%d,%d\n", date[lines], ratio[lines], putVolume[lines], callVolume[lines], totalVolume[lines]);
         }
 
 
