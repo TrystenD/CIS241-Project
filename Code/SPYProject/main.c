@@ -45,13 +45,16 @@ int main()
         // File was opened
 
         fscanf(fp, "%*[^\n]\n");
-        while(fscanf(fp, "%[^,],%f,%d,%d,%d", date[lines], &ratio[lines], &putVolume[lines], &callVolume[lines], &totalVolume[lines]) != EOF){
+        while(fscanf(fp, "%[^,],%f,%d,%d,%d\n", date[lines], &ratio[lines], &putVolume[lines], &callVolume[lines], &totalVolume[lines]) != EOF){
             printf("%s,%.2f,%d,%d,%d\n", date[lines], ratio[lines], putVolume[lines], callVolume[lines], totalVolume[lines]);
             lines++;
         }
 
-    }
+        printf("The minimum put volume is %d\n", putVolume[minimum(putVolume, lines)]);
+        printf("The maximum put volume is %d\n", putVolume[maximum(putVolume, lines)]);
 
+
+    }
 
     return 0;
 }
