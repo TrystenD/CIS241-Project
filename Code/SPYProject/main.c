@@ -15,7 +15,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "monthly.h"
 
 #define SIZE 2500
 #define MONTHS 12
@@ -57,6 +56,8 @@ int main()
         printf("The minimum put volume is %d\n", putVolume[minimum(putVolume, lines)]);
         printf("The maximum put volume is %d\n", putVolume[maximum(putVolume, lines)]);
         printf("Average Put/Call Ratio: %f\n", avgPutCallRatioByYear(date, ratio, 12));
+
+        printf("Average Put/Call Ratio for January: %f\n", monthly(date,ratio,lines,1));
 
     }
 
@@ -102,6 +103,23 @@ float avgPutCallRatioByYear(char dates[][10], float ratios[], int year)
 
     return (ratioSum / ratiosCnt);
 
+}
+
+float monthly(char dates[][10], float ratios[], int lines, int month)  {
+    char *token, *string;
+    float ratioAvg = 0;
+    int numDates = 0;
+
+    for (int i = 0; i < lines; i++) {
+        strcpy(string,dates[i]);
+        token = strtok(string, "/");
+        if ((int)token == month)    {
+            ratioAvg += ratios[i];
+            numDates++;
+        }
+    }
+
+    return (ratioAvg/numDates);
 }
 
 /**
