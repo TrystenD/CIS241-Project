@@ -17,34 +17,34 @@
 #include <string.h>
 #include "monthly.h"
 
-void monthly(char *dates[],int ratios[],int lines, int avgs[MONTHS])  {
-    int data[lines][DATAPOINTS];
-    char *token, *string;
+void monthly(char *dates[], float ratios[], int avgs[], int lines)  {
+    // int data[lines][DATAPOINTS];
+    // char *token, *string;
 
-    for (int i = 0; i < lines; i++) {
-        strcpy(string,data[i]);
-        token = strtok(string, "/");
-        for (int j = 0; j < 2; j++)
-            data[i][j] = j ? ratios[i] : (int)token;
-    }
+    // for (int i = 0; i < lines; i++) {
+    //     strcpy(string,data[i]);
+    //     token = strtok(string, "/");
+    //     for (int j = 0; j < 2; j++)
+    //         data[i][j] = j ? ratios[i] : (int)token;
+    // }
 
-    for (int i = 0; i < MONTHS; i++)    {
-        avgs[i] = avgOneMonth(i,data,lines);
-    }
+    // for (int i = 0; i < MONTHS; i++)    {
+    //     avgs[i] = avgOneMonth(i,data,lines);
+    // }
 }
 
 
 int avgOneMonth(int month, int data[][DATAPOINTS], int lines)   {
     int ratioAvg = 0, numPts = 0;
     
-    for (int i = 0; i < lines; i++) {
-        if (data[i][0] == month)    {
-            ratioAvg += data[i][1];
-            numPts++;
-        }
-    }
+    // for (int i = 0; i < lines; i++) {
+    //     if (data[i][0] == month)    {
+    //         ratioAvg += data[i][1];
+    //         numPts++;
+    //     }
+    // }
 
-    ratioAvg /= numPts;
+    // ratioAvg /= numPts;
 
     return ratioAvg;
 }

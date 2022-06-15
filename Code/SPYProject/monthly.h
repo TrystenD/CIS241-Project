@@ -4,7 +4,7 @@
 #define MONTHS 12
 #define DATAPOINTS 2
 
-void monthly(char *dates[],int ratios[],int lines,int avgs[MONTHS]);
+void monthly(char *dates[], float ratios[], int avgs[], int lines);
 int avgOneMonth(int month, int data[][DATAPOINTS], int lines);
 
 #endif  //_MONTHLY_H

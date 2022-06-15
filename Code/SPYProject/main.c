@@ -28,7 +28,7 @@ int main()
 
     int lines = 0;  // total lines in text file is currently 2331
 
-    char date[SIZE][10];    
+    char *date[SIZE];    
     float ratio[SIZE]; 
     int putVolume[SIZE]; 
     int callVolume[SIZE]; 
@@ -38,7 +38,7 @@ int main()
 
     FILE *fp;
 
-    if((fp = fopen("SPY241Project.txt", "r")) == NULL) // Open hardware.dat file for writing ("w")
+    if((fp = fopen("SPY241Project.txt", "r")) == NULL) // Open SPY241Project.txt file for reading
     {
         puts("File could not be opened\n");
     }
@@ -54,8 +54,7 @@ int main()
 
     }
 
-    monthly(date,ratio,lines,monthlyRatioAvg);
-
+    monthly(date,ratio,monthlyRatioAvg,lines);
 
     return 0;
 }
