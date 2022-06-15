@@ -8,20 +8,24 @@
  *
  * @file main.c
  *
- * @note Assignmnet: SPY Project
+ * @note Assignment: SPY Project
  *       Course:     CIS241-01
  *       Instructor: Prof. Bhuse
  */
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #define SIZE 2500
 
+
+void promptMenu(void);
 int maxRatio(float ratio[], int lines); 
 int minRatio(float ratio[], int lines); 
 int maxVolume(int volume[], int lines);
 int minVolume(int volume[], int lines);
+
 float avgPutCallRatioByYear(char dates[][10], float ratios[], int year);
 
 int main()
@@ -52,6 +56,8 @@ int main()
             lines++;
         }
 
+
+        promptMenu();
         printf("The minimum put/call ratio was on %s at %0.2f\n", date[minRatio(ratio, lines)], ratio[minRatio(ratio, lines)]);
         printf("The maximum put/call ratio was on %s at %0.2f\n", date[maxRatio(ratio, lines)], ratio[maxRatio(ratio, lines)]);
         printf("Average Put/Call Ratio: %f\n", avgPutCallRatioByYear(date, ratio, 12));
@@ -61,6 +67,41 @@ int main()
 
     return 0;
 }
+
+
+/**
+ * @brief Prints a menu for the user to reference and select
+ *        what information they want to see
+ *
+ * @param
+ *       void
+ * @return
+ *       void
+ */
+void promptMenu(void) {
+    char *spacer = "   ";
+    int selection = 0;
+
+    printf("--------------------------\n");
+    printf("|%sSPY 10-Year Review%s|\n", spacer, spacer);
+    printf("--------------------------\n");
+    printf("  SPY Ratio\n", spacer);
+    printf("%s(1) Maximum\n", spacer);
+    printf("%s(2) Minimum\n", spacer);
+    printf("%s(3) Average\n", spacer);
+
+    do {
+        printf("\nPlease enter a selection: ");
+        scanf("%d", &selection);
+
+        if (selection > 0 && selection < 4)
+            break;
+        else
+            printf("Invalid input!");
+    } while (1);
+}
+
+
 
 /**
  * @brief Computes the average Put/Call ratio for a given year
