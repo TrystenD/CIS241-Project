@@ -18,9 +18,10 @@
 
 #define SIZE 2500
 
-
-int maximum(int volume[], int lines);
-int minimum(int volume[], int lines);
+int maxRatio(float ratio[], int lines); 
+int minRatio(float ratio[], int lines); 
+int maxVolume(int volume[], int lines);
+int minVolume(int volume[], int lines);
 
 int main()
 {
@@ -32,8 +33,6 @@ int main()
     int putVolume[SIZE];
     int callVolume[SIZE];
     int totalVolume[SIZE];
-
-    void (*functions)(int, int) = {maximum, minimum};
 
     FILE *fp;
 
@@ -51,11 +50,9 @@ int main()
             printf("%s,%.2f,%d,%d,%d\n", date[lines], ratio[lines], putVolume[lines], callVolume[lines], totalVolume[lines]);
             lines++;
         }
-
-        printf("The maximum put/call ratio was on %s at %f\n", maximum());
-
-        //printf("The minimum put volume is %d and happened on %s\n", putVolume[minimum(putVolume, lines)], date[minimum(putVolume, lines)]);
-        //printf("The maximum put volume is %d and happened on %s\n", putVolume[maximum(putVolume, lines)], date[maximum(putVolume, lines)]);
+         
+        printf("The minimum put/call ratio was on %s at %0.2f\n", date[minRatio(ratio, lines)], ratio[minRatio(ratio, lines)]);
+        printf("The maximum put/call ratio was on %s at %0.2f\n", date[maxRatio(ratio, lines)], ratio[maxRatio(ratio, lines)]);
 
     }
 
@@ -69,7 +66,7 @@ int main()
  * @param  int lines:    total number of dates
  * @return int max: index of maximum
  */
-int maximum(int volume[], int lines){
+int maxVolume(int volume[], int lines){
     int max = volume[0];
 
     for(int i = 0; i < lines; i++)
@@ -86,11 +83,45 @@ int maximum(int volume[], int lines){
  * @param  int lines:    total number of dates
  * @return int min: index of minimum
  */
-int minimum(int volume[], int lines){
+int minVolume(int volume[], int lines){
     int min = volume[0];
 
     for(int i = 0; i < lines; i++)
         if(volume[i] < min)
+            min = i;
+
+    return min;
+}
+
+/**
+ * @brief Finds index of maximum put/call ratio
+ * 
+ * @param  float volume[]: array of put/call/total ratio
+ * @param  int lines:      total number of dates
+ * @return int max: index of maximum
+ */
+int maxRatio(float ratio[], int lines){
+    int max = (int)(100*ratio[0]);
+
+    for(int i = 0; i < lines; i++)
+        if((int)(100*ratio[i]) > max)
+            max = i;
+
+    return max;
+}
+
+/**
+ * @brief Finds index of minimum put/call ratio
+ * 
+ * @param  float volume[]: array of put/call/total ratio
+ * @param  int lines:      total number of dates
+ * @return int min: index of minimum
+ */
+int minRatio(float ratio[], int lines){
+    int min = (int)(100*ratio[0]);
+
+    for(int i = 0; i < lines; i++)
+        if((int)(100*ratio[i]) < min)
             min = i;
 
     return min;
