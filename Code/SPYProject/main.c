@@ -33,6 +33,8 @@ int main()
     int callVolume[SIZE];
     int totalVolume[SIZE];
 
+    void (*functions)(int, int) = {maximum, minimum};
+
     FILE *fp;
 
     if((fp = fopen("SPY241Project.txt", "r")) == NULL) // Open hardware.dat file for writing ("w")
@@ -50,9 +52,10 @@ int main()
             lines++;
         }
 
-        printf("The minimum put volume is %d\n", putVolume[minimum(putVolume, lines)]);
-        printf("The maximum put volume is %d\n", putVolume[maximum(putVolume, lines)]);
+        printf("The maximum put/call ratio was on %s at %f\n", maximum());
 
+        //printf("The minimum put volume is %d and happened on %s\n", putVolume[minimum(putVolume, lines)], date[minimum(putVolume, lines)]);
+        //printf("The maximum put volume is %d and happened on %s\n", putVolume[maximum(putVolume, lines)], date[maximum(putVolume, lines)]);
 
     }
 
@@ -61,12 +64,10 @@ int main()
 
 /**
  * @brief Finds index of maximum put/call volumes
- *
- * @param
- *       int volume[]: array of put/call/total volumes
- *       int lines:    total number of dates
- * @return
- *       int max: index of maximum
+ * 
+ * @param  int volume[]: array of put/call/total volumes
+ * @param  int lines:    total number of dates
+ * @return int max: index of maximum
  */
 int maximum(int volume[], int lines){
     int max = volume[0];
@@ -80,12 +81,10 @@ int maximum(int volume[], int lines){
 
 /**
  * @brief Finds index of minimum put/call volumes
- *
- * @param
- *       int volume[]: array of put/call/total volumes
- *       int lines:    total number of dates
- * @return
- *       int min: index of minimum
+ * 
+ * @param  int volume[]: array of put/call/total volumes
+ * @param  int lines:    total number of dates
+ * @return int min: index of minimum
  */
 int minimum(int volume[], int lines){
     int min = volume[0];
