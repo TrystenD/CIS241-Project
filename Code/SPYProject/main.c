@@ -22,6 +22,7 @@ int maxRatio(float ratio[], int lines);
 int minRatio(float ratio[], int lines); 
 int maxVolume(int volume[], int lines);
 int minVolume(int volume[], int lines);
+float avgPutCallRatioByYear(char dates[][10], float ratios[], int year);
 
 int main()
 {
@@ -47,16 +48,59 @@ int main()
 
         fscanf(fp, "%*[^\n]\n");
         while(fscanf(fp, "%[^,],%f,%d,%d,%d\n", date[lines], &ratio[lines], &putVolume[lines], &callVolume[lines], &totalVolume[lines]) != EOF){
-            printf("%s,%.2f,%d,%d,%d\n", date[lines], ratio[lines], putVolume[lines], callVolume[lines], totalVolume[lines]);
+            //printf("%s,%.2f,%d,%d,%d\n", date[lines], ratio[lines], putVolume[lines], callVolume[lines], totalVolume[lines]);
             lines++;
         }
-         
+
         printf("The minimum put/call ratio was on %s at %0.2f\n", date[minRatio(ratio, lines)], ratio[minRatio(ratio, lines)]);
         printf("The maximum put/call ratio was on %s at %0.2f\n", date[maxRatio(ratio, lines)], ratio[maxRatio(ratio, lines)]);
+        printf("Average Put/Call Ratio: %f\n", avgPutCallRatioByYear(date, ratio, 12));
+
 
     }
 
     return 0;
+}
+
+/**
+ * @brief Computes the average Put/Call ratio for a given year
+ *        within the data provided in the data file.
+ *
+ * @param char dates[][10]: The parsed array of the date column
+ * @param float ratios[]: The parsed array of the put/call ratio column
+ * @param int year: The year (in yy format) to compute the avg put/call ratio in it
+ *
+ * @return void
+ */
+float avgPutCallRatioByYear(char dates[][10], float ratios[], int year)
+{
+    char tempDate[10];
+    char *token;
+    int i;
+    int yearToken;
+    float ratioSum = 0;
+    int ratiosCnt = 0;
+
+    for(i = 0; i < 2330; i++)
+    {
+        strcpy(tempDate, dates[i]);     // Make copy of date string
+        token = strtok(tempDate, "/");  // Tokenize string until token is year
+        token = strtok(NULL, "/");
+        token = strtok(NULL, "/");
+
+        yearToken = atoi(token);        // Convert string year to int year
+        //printf("%d\n", yearToken);
+
+        if(yearToken == year)
+        {
+            ratioSum += ratios[i];
+            ratiosCnt++;
+        }
+
+    }
+
+    return (ratioSum / ratiosCnt);
+
 }
 
 /**
