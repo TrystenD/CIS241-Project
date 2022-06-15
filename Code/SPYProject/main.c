@@ -16,7 +16,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define SIZE 2500
+#define NUM_DATA_LINES 2330
 
 float avgPutCallRatioByYear(char dates[][10], float ratios[], int year);
 int maximum(int volume[], int lines);
@@ -27,11 +27,11 @@ int main()
 
     int lines = 0;  // total lines in text file is currently 2331
 
-    char date[SIZE][10];
-    float ratio[SIZE];
-    int putVolume[SIZE];
-    int callVolume[SIZE];
-    int totalVolume[SIZE];
+    char date[NUM_DATA_LINES][10];
+    float ratio[NUM_DATA_LINES];
+    int putVolume[NUM_DATA_LINES];
+    int callVolume[NUM_DATA_LINES];
+    int totalVolume[NUM_DATA_LINES];
 
     FILE *fp;
 
@@ -78,7 +78,7 @@ float avgPutCallRatioByYear(char dates[][10], float ratios[], int year)
     float ratioSum = 0;
     int ratiosCnt = 0;
 
-    for(i = 0; i < 2330; i++)
+    for(i = 0; i < NUM_DATA_LINES; i++)
     {
         strcpy(tempDate, dates[i]);     // Make copy of date string
         token = strtok(tempDate, "/");  // Tokenize string until token is year
