@@ -15,8 +15,10 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "monthly.h"
 
 #define SIZE 2500
+#define MONTHS 12
 
 void maximum(int volume[]);
 void minimum(int volume[]);
@@ -31,6 +33,8 @@ int main()
     int putVolume[SIZE]; 
     int callVolume[SIZE]; 
     int totalVolume[SIZE]; 
+
+    int monthlyRatioAvg[MONTHS];
 
     FILE *fp;
 
@@ -49,6 +53,8 @@ int main()
         }
 
     }
+
+    monthly(date,ratio,lines,monthlyRatioAvg);
 
 
     return 0;

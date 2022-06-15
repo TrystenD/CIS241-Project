@@ -15,16 +15,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "monthly.h"
 
-#define MONTHS 12
-#define DATAPOINTS 2
-
-
-int *monthly(char *dates[],int ratios[],int lines)  {
+void monthly(char *dates[],int ratios[],int lines, int avgs[MONTHS])  {
     int data[lines][DATAPOINTS];
-    int monthlyAvgs[MONTHS];
     char *token, *string;
-    
+
     for (int i = 0; i < lines; i++) {
         strcpy(string,data[i]);
         token = strtok(string, "/");
@@ -33,10 +29,8 @@ int *monthly(char *dates[],int ratios[],int lines)  {
     }
 
     for (int i = 0; i < MONTHS; i++)    {
-        monthlyAvgs[i] = avgOneMonth(i,data,lines);
+        avgs[i] = avgOneMonth(i,data,lines);
     }
-
-    return monthlyAvgs;
 }
 
 
