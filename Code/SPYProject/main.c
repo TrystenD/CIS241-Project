@@ -31,7 +31,7 @@ float avgPutCallRatioByYear(char dates[][10], float ratios[], int year);
 int main()
 {
 
-    int lines = 0;  // total lines in text file is currently 2331
+    int lines = 0;  // total lines in tex file
 
     char date[NUM_DATA_LINES][10];
     float ratio[NUM_DATA_LINES];
@@ -41,7 +41,7 @@ int main()
 
     FILE *fp;
 
-    if((fp = fopen("SPY241Project.txt", "r")) == NULL) // Open hardware.dat file for writing ("w")
+    if((fp = fopen("SPY241Project.txt", "r")) == NULL) // Open SPY241Project.txt file for reading ("r")
     {
         puts("File could not be opened\n");
     }
@@ -50,8 +50,8 @@ int main()
         printf("File opened\n");
         // File was opened
 
-        fscanf(fp, "%*[^\n]\n");
-        while(fscanf(fp, "%[^,],%f,%d,%d,%d\n", date[lines], &ratio[lines], &putVolume[lines], &callVolume[lines], &totalVolume[lines]) != EOF){
+        fscanf(fp, "%*[^\n]\n");    // Skips the first line in the text file
+        while(fscanf(fp, "%[^,],%f,%d,%d,%d\n", date[lines], &ratio[lines], &putVolume[lines], &callVolume[lines], &totalVolume[lines]) != EOF){  // read each line
             //printf("%s,%.2f,%d,%d,%d\n", date[lines], ratio[lines], putVolume[lines], callVolume[lines], totalVolume[lines]);
             lines++;
         }
