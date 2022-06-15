@@ -61,9 +61,23 @@ int main()
         promptMenu();
         printf("The minimum put/call ratio was on %s at %0.2f\n", date[minRatio(ratio, lines)], ratio[minRatio(ratio, lines)]);
         printf("The maximum put/call ratio was on %s at %0.2f\n", date[maxRatio(ratio, lines)], ratio[maxRatio(ratio, lines)]);
-        printf("Average Put/Call Ratio: %f\n", avgPutCallRatioByYear(date, ratio, 12));
+        printf("\nAverage Put/Call Ratio: %f\n\n", avgPutCallRatioByYear(date, ratio, 12));
 
-        printf("Average Put/Call Ratio for January: %f\n", monthly(date,ratio,lines,1));
+        printf("--Average Put/Call Ratio by Month--\n");
+        printf("%-15s\t%f\n", "January:",monthly(date,ratio,lines,1));
+        printf("%-15s\t%f\n", "February:",monthly(date,ratio,lines,2));
+        printf("%-15s\t%f\n", "March:",monthly(date,ratio,lines,3));
+        printf("%-15s\t%f\n", "April:",monthly(date,ratio,lines,4));
+        printf("%-15s\t%f\n", "May:",monthly(date,ratio,lines,5));
+        printf("%-15s\t%f\n", "June:",monthly(date,ratio,lines,6));
+        printf("%-15s\t%f\n", "July:",monthly(date,ratio,lines,7));
+        printf("%-15s\t%f\n", "August:",monthly(date,ratio,lines,8));
+        printf("%-15s\t%f\n", "September:",monthly(date,ratio,lines,9));
+        printf("%-15s\t%f\n", "October:",monthly(date,ratio,lines,10));
+        printf("%-15s\t%f\n", "November:",monthly(date,ratio,lines,11));
+        printf("%-15s\t%f\n", "December:",monthly(date,ratio,lines,12));
+
+
 
     }
 
