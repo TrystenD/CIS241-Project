@@ -27,6 +27,7 @@ int maxVolume(int volume[], int lines);
 int minVolume(int volume[], int lines);
 
 float avgPutCallRatioByYear(char dates[][10], float ratios[], int year);
+float monthly(char dates[][10], float ratios[], int lines, int month);
 
 int main()
 {
@@ -41,7 +42,7 @@ int main()
 
     FILE *fp;
 
-    if((fp = fopen("SPY241Project.txt", "r")) == NULL) // Open SPY241Project.txt file for reading ("r")
+    if((fp = fopen("SPY241Project.txt", "r")) == NULL) // Open SPY241Project.txt file for reading
     {
         puts("File could not be opened\n");
     }
@@ -60,7 +61,22 @@ int main()
         promptMenu();
         printf("The minimum put/call ratio was on %s at %0.2f\n", date[minRatio(ratio, lines)], ratio[minRatio(ratio, lines)]);
         printf("The maximum put/call ratio was on %s at %0.2f\n", date[maxRatio(ratio, lines)], ratio[maxRatio(ratio, lines)]);
-        printf("Average Put/Call Ratio: %f\n", avgPutCallRatioByYear(date, ratio, 12));
+        printf("\nAverage Put/Call Ratio: %f\n\n", avgPutCallRatioByYear(date, ratio, 12));
+
+        printf("--Average Put/Call Ratio by Month--\n");
+        printf("%-15s\t%f\n", "January:",monthly(date,ratio,lines,1));
+        printf("%-15s\t%f\n", "February:",monthly(date,ratio,lines,2));
+        printf("%-15s\t%f\n", "March:",monthly(date,ratio,lines,3));
+        printf("%-15s\t%f\n", "April:",monthly(date,ratio,lines,4));
+        printf("%-15s\t%f\n", "May:",monthly(date,ratio,lines,5));
+        printf("%-15s\t%f\n", "June:",monthly(date,ratio,lines,6));
+        printf("%-15s\t%f\n", "July:",monthly(date,ratio,lines,7));
+        printf("%-15s\t%f\n", "August:",monthly(date,ratio,lines,8));
+        printf("%-15s\t%f\n", "September:",monthly(date,ratio,lines,9));
+        printf("%-15s\t%f\n", "October:",monthly(date,ratio,lines,10));
+        printf("%-15s\t%f\n", "November:",monthly(date,ratio,lines,11));
+        printf("%-15s\t%f\n", "December:",monthly(date,ratio,lines,12));
+
 
 
     }
@@ -142,6 +158,36 @@ float avgPutCallRatioByYear(char dates[][10], float ratios[], int year)
 
     return (ratioSum / ratiosCnt);
 
+}
+
+
+/**
+ * @brief Computes the average Put/Call ratio for a given month
+ *        within the data provided in the data file.
+ *
+ * @param char dates[][10]: The parsed array of the date column
+ * @param float ratios[]: The parsed array of the put/call ratio column
+ * @param int month: The month to compute the avg put/call ratio in it
+ *
+ * @return float: average put/call ratio for month
+ */
+float monthly(char dates[][10], float ratios[], int lines, int month)  {
+    char *token;
+    char string[10];
+    float ratioAvg = 0;
+    int monthToken,numDates = 0;
+
+    for (int i = 0; i < lines; i++) {
+        strcpy(string,dates[i]);
+        token = strtok(string, "/");
+        monthToken = atoi(token);
+        if (monthToken == month)    {
+            ratioAvg += ratios[i];
+            numDates++;
+        }
+    }
+
+    return (ratioAvg/numDates);
 }
 
 /**
