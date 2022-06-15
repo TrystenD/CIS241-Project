@@ -54,7 +54,6 @@ int main()
 
     }
 
-    monthly(date,ratio,monthlyRatioAvg,lines);
 
     return 0;
 }
