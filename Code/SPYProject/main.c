@@ -15,6 +15,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #define SIZE 2500
 #define MONTHS 12
@@ -22,6 +23,7 @@
 float avgPutCallRatioByYear(char dates[][10], float ratios[], int year);
 int maximum(int volume[], int lines);
 int minimum(int volume[], int lines);
+float monthly(char dates[][10], float ratios[], int lines, int month);
 
 int main()
 {
@@ -105,6 +107,17 @@ float avgPutCallRatioByYear(char dates[][10], float ratios[], int year)
 
 }
 
+
+/**
+ * @brief Computes the average Put/Call ratio for a given month
+ *        within the data provided in the data file.
+ *
+ * @param char dates[][10]: The parsed array of the date column
+ * @param float ratios[]: The parsed array of the put/call ratio column
+ * @param int month: The month to compute the avg put/call ratio in it
+ *
+ * @return float: average put/call ratio for month
+ */
 float monthly(char dates[][10], float ratios[], int lines, int month)  {
     char *token, *string;
     float ratioAvg = 0;
