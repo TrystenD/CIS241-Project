@@ -8,19 +8,20 @@
  *
  * @file main.c
  *
- * @note Assignmnet: SPY Project
+ * @note Assignment: SPY Project
  *       Course:     CIS241-01
  *       Instructor: Prof. Bhuse
  */
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #define SIZE 2500
 
 
-int maximum(int volume[], int lines);
-int minimum(int volume[], int lines);
+void promptMenu(void);
+float avgPutCallRatioByYear(char dates[][10], float ratios[], int year);
 
 int main()
 {
@@ -50,8 +51,7 @@ int main()
             lines++;
         }
 
-        printf("The minimum put volume is %d\n", putVolume[minimum(putVolume, lines)]);
-        printf("The maximum put volume is %d\n", putVolume[maximum(putVolume, lines)]);
+        promptMenu();
 
 
     }
@@ -59,40 +59,35 @@ int main()
     return 0;
 }
 
-/**
- * @brief Finds index of maximum put/call volumes
- *
- * @param
- *       int volume[]: array of put/call/total volumes
- *       int lines:    total number of dates
- * @return
- *       int max: index of maximum
- */
-int maximum(int volume[], int lines){
-    int max = volume[0];
-
-    for(int i = 0; i < lines; i++)
-        if(volume[i] > max)
-            max = i;
-
-    return max;
-}
 
 /**
- * @brief Finds index of minimum put/call volumes
+ * @brief Prints a menu for the user to reference and select
+ *        what information they want to see
  *
  * @param
- *       int volume[]: array of put/call/total volumes
- *       int lines:    total number of dates
+ *       void
  * @return
- *       int min: index of minimum
+ *       void
  */
-int minimum(int volume[], int lines){
-    int min = volume[0];
+void promptMenu(void) {
+    char *spacer = "   ";
+    int selection = 0;
 
-    for(int i = 0; i < lines; i++)
-        if(volume[i] < min)
-            min = i;
+    printf("--------------------------\n");
+    printf("|%sSPY 10-Year Review%s|\n", spacer, spacer);
+    printf("--------------------------\n");
+    printf("  SPY Ratio\n", spacer);
+    printf("%s(1) Maximum\n", spacer);
+    printf("%s(2) Minimum\n", spacer);
+    printf("%s(3) Average\n", spacer);
 
-    return min;
+    do {
+        printf("\nPlease enter a selection: ");
+        scanf("%d", &selection);
+
+        if (selection > 0 && selection < 4)
+            break;
+        else
+            printf("Invalid input!");
+    } while (1);
 }
