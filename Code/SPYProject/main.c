@@ -8,19 +8,25 @@
  *
  * @file main.c
  *
- * @note Assignmnet: SPY Project
+ * @note Assignment: SPY Project
  *       Course:     CIS241-01
  *       Instructor: Prof. Bhuse
  */
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #define NUM_DATA_LINES 2330
 
+
+void promptMenu(void);
+int maxRatio(float ratio[], int lines); 
+int minRatio(float ratio[], int lines); 
+int maxVolume(int volume[], int lines);
+int minVolume(int volume[], int lines);
+
 float avgPutCallRatioByYear(char dates[][10], float ratios[], int year);
-int maximum(int volume[], int lines);
-int minimum(int volume[], int lines);
 
 int main()
 {
@@ -50,14 +56,52 @@ int main()
             lines++;
         }
 
-        printf("The minimum put volume is %d\n", putVolume[minimum(putVolume, lines)]);
-        printf("The maximum put volume is %d\n", putVolume[maximum(putVolume, lines)]);
+
+        promptMenu();
+        printf("The minimum put/call ratio was on %s at %0.2f\n", date[minRatio(ratio, lines)], ratio[minRatio(ratio, lines)]);
+        printf("The maximum put/call ratio was on %s at %0.2f\n", date[maxRatio(ratio, lines)], ratio[maxRatio(ratio, lines)]);
         printf("Average Put/Call Ratio: %f\n", avgPutCallRatioByYear(date, ratio, 12));
+
 
     }
 
     return 0;
 }
+
+
+/**
+ * @brief Prints a menu for the user to reference and select
+ *        what information they want to see
+ *
+ * @param
+ *       void
+ * @return
+ *       void
+ */
+void promptMenu(void) {
+    char *spacer = "   ";
+    int selection = 0;
+
+    printf("--------------------------\n");
+    printf("|%sSPY 10-Year Review%s|\n", spacer, spacer);
+    printf("--------------------------\n");
+    printf("  SPY Ratio\n", spacer);
+    printf("%s(1) Maximum\n", spacer);
+    printf("%s(2) Minimum\n", spacer);
+    printf("%s(3) Average\n", spacer);
+
+    do {
+        printf("\nPlease enter a selection: ");
+        scanf("%d", &selection);
+
+        if (selection > 0 && selection < 4)
+            break;
+        else
+            printf("Invalid input!");
+    } while (1);
+}
+
+
 
 /**
  * @brief Computes the average Put/Call ratio for a given year
@@ -102,14 +146,12 @@ float avgPutCallRatioByYear(char dates[][10], float ratios[], int year)
 
 /**
  * @brief Finds index of maximum put/call volumes
- *
- * @param
- *       int volume[]: array of put/call/total volumes
- *       int lines:    total number of dates
- * @return
- *       int max: index of maximum
+ * 
+ * @param  int volume[]: array of put/call/total volumes
+ * @param  int lines:    total number of dates
+ * @return int max: index of maximum
  */
-int maximum(int volume[], int lines){
+int maxVolume(int volume[], int lines){
     int max = volume[0];
 
     for(int i = 0; i < lines; i++)
@@ -121,18 +163,50 @@ int maximum(int volume[], int lines){
 
 /**
  * @brief Finds index of minimum put/call volumes
- *
- * @param
- *       int volume[]: array of put/call/total volumes
- *       int lines:    total number of dates
- * @return
- *       int min: index of minimum
+ * 
+ * @param  int volume[]: array of put/call/total volumes
+ * @param  int lines:    total number of dates
+ * @return int min: index of minimum
  */
-int minimum(int volume[], int lines){
+int minVolume(int volume[], int lines){
     int min = volume[0];
 
     for(int i = 0; i < lines; i++)
         if(volume[i] < min)
+            min = i;
+
+    return min;
+}
+
+/**
+ * @brief Finds index of maximum put/call ratio
+ * 
+ * @param  float volume[]: array of put/call/total ratio
+ * @param  int lines:      total number of dates
+ * @return int max: index of maximum
+ */
+int maxRatio(float ratio[], int lines){
+    int max = (int)(100*ratio[0]);
+
+    for(int i = 0; i < lines; i++)
+        if((int)(100*ratio[i]) > max)
+            max = i;
+
+    return max;
+}
+
+/**
+ * @brief Finds index of minimum put/call ratio
+ * 
+ * @param  float volume[]: array of put/call/total ratio
+ * @param  int lines:      total number of dates
+ * @return int min: index of minimum
+ */
+int minRatio(float ratio[], int lines){
+    int min = (int)(100*ratio[0]);
+
+    for(int i = 0; i < lines; i++)
+        if((int)(100*ratio[i]) < min)
             min = i;
 
     return min;
