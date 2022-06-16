@@ -19,6 +19,10 @@
 
 #define NUM_DATA_LINES 2330
 
+/** Month LUT */
+char months[12][15] = {"January", "February", "March", "April", "May", "June",
+                       "July", "August", "September", "October", "November", "December"}; 
+
 /** Function Prototypes */
 void promptMenu(void);
 int maxRatio(float ratio[]); // remove lines as arg
@@ -53,11 +57,11 @@ int main()
     }
     else
     {
-        fscanf(fp, "%*[^\n]\n");    // Skips the first line in the text file
-        while(fscanf(fp, "%[^,],%f,%d,%d,%d\n", date[lines], &ratio[lines], &putVolume[lines], &callVolume[lines], &totalVolume[lines]) != EOF){  // read each line
-            lines++; // flagged for removal since we have macro
+        // Skips the first line in the text file
+        fscanf(fp, "%*[^\n]\n");    
+        while(fscanf(fp, "%[^,],%f,%d,%d,%d\n", date[lines], &ratio[lines], &putVolume[lines], &callVolume[lines], &totalVolume[lines]) != EOF){
+            lines++; 
         }
-
 
         displayMainMenu();
 
@@ -77,19 +81,11 @@ int main()
                 case 3:
                     break;
                 case 4:
+
                     printf("--Average Put/Call Ratio by Month--\n");
-                    printf("%-15s\t%f\n", "January:",avgPutCallRatioByMonth(date,ratio,1));
-                    printf("%-15s\t%f\n", "February:",avgPutCallRatioByMonth(date,ratio,2));
-                    printf("%-15s\t%f\n", "March:",avgPutCallRatioByMonth(date,ratio,3));
-                    printf("%-15s\t%f\n", "April:",avgPutCallRatioByMonth(date,ratio,4));
-                    printf("%-15s\t%f\n", "May:",avgPutCallRatioByMonth(date,ratio,5));
-                    printf("%-15s\t%f\n", "June:",avgPutCallRatioByMonth(date,ratio,6));
-                    printf("%-15s\t%f\n", "July:",avgPutCallRatioByMonth(date,ratio,7));
-                    printf("%-15s\t%f\n", "August:",avgPutCallRatioByMonth(date,ratio,8));
-                    printf("%-15s\t%f\n", "September:",avgPutCallRatioByMonth(date,ratio,9));
-                    printf("%-15s\t%f\n", "October:",avgPutCallRatioByMonth(date,ratio,10));
-                    printf("%-15s\t%f\n", "November:",avgPutCallRatioByMonth(date,ratio,11));
-                    printf("%-15s\t%f\n", "December:",avgPutCallRatioByMonth(date,ratio,12));
+                    for(int i = 0; i < 12; i++)
+                        printf("%-15s\t\t%f\n", months[i], avgPutCallRatioByMonth(date, ratio, i + 1));
+
                     break;
                 case 5:
                     printf("Enter the year you would like to calculate the average put/call ratio of: ");
