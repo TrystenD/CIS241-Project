@@ -17,16 +17,17 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define NUM_DATA_LINES 2330
+/*************************************************** Macros */
+#define NUM_DATA_LINES 2330 // Total number of data lines in data text file
 
-/** Month LUT */
+/*************************************************** LUTs */
 char months[12][15] = {"January", "February", "March", "April", "May", "June",
-                       "July", "August", "September", "October", "November", "December"}; 
+                       "July", "August", "September", "October", "November", "December"};
 
-/** Function Prototypes */
+/*************************************************** Function Prototypes */
 void promptMenu(void);
-int maxRatio(float ratio[]); // remove lines as arg
-int minRatio(float ratio[]); 
+int maxRatio(float ratio[]);
+int minRatio(float ratio[]);
 int maxVolume(int volume[]);
 int minVolume(int volume[]);
 void displayMainMenu(void);
@@ -35,95 +36,158 @@ void displayMinMenu(void);
 float avgPutCallRatioByYear(char dates[][10], float ratios[], int year);
 float avgPutCallRatioByMonth(char dates[][10], float ratios[], int month);
 
+/*************************************************** Main Program Entry */
 int main()
 {
-    int selection = 0;
-    int selectYear;
-    int selectMonth;
+    int selection;                    // User's menu item selection
+    int selectYear;                   // Month selected to view data for
+    int selectMonth;                  // Year selected to view data for
+    int lines = 0;                    // Data lines read in text file
+    char dates[NUM_DATA_LINES][10];   // Dates column of data file
+    float ratios[NUM_DATA_LINES];     // Put/Call ratios column of data file
+    int putVolumes[NUM_DATA_LINES];   // Put volumes column of data file
+    int callVolumes[NUM_DATA_LINES];  // Call volumes column of data file
+    int totalVolumes[NUM_DATA_LINES]; // Total SPY options volyme (Puts + Calls)
 
-    int lines = 0;  // total lines in text file
+    FILE *fp;                         // Pointer to data file
 
-    char date[NUM_DATA_LINES][10];
-    float ratio[NUM_DATA_LINES];
-    int putVolume[NUM_DATA_LINES];
-    int callVolume[NUM_DATA_LINES];
-    int totalVolume[NUM_DATA_LINES];
-
-    FILE *fp;
-
-    if((fp = fopen("SPY241Project.txt", "r")) == NULL) // Open SPY241Project.txt file for reading
+    if((fp = fopen("SPY241Project.txt", "r")) == NULL) // Attempt to open SPY241Project.txt file for reading
     {
         puts("File could not be opened\n");
     }
     else
     {
-        // Skips the first line in the text file
-        fscanf(fp, "%*[^\n]\n");    
-        while(fscanf(fp, "%[^,],%f,%d,%d,%d\n", date[lines], &ratio[lines], &putVolume[lines], &callVolume[lines], &totalVolume[lines]) != EOF){
-            lines++; 
+        fscanf(fp, "%*[^\n]\n");                       // Skips the first line in the text file
+        while(fscanf(fp, "%[^,],%f,%d,%d,%d\n",        // Reads data lines from text file row by row
+                     dates[lines],
+                     &ratios[lines],
+                     &putVolumes[lines],
+                     &callVolumes[lines],
+                     &totalVolumes[lines]) != EOF){
+            lines++;                                   // Counts the # of data lines read for indexing
         }
 
-        displayMainMenu();
+        printf("****** Welcome to the 2010-2019 SPY Data Program! ******");
 
         do {
-            printf("\nPlease enter a selection: ");
+            displayMainMenu();
+            printf("\nPlease enter a new selection: ");
             scanf("%d", &selection);
 
-            if (selection > 0 && selection < 11)
+            if (selection >= 1 && selection <= 7)
             {
-                // Call Functions
                 switch(selection)
                 {
-                case 1:
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    break;
-                case 4:
-                    printf("--Average Put/Call Ratio by Month--\n");
-                    for(int i = 0; i < 12; i++)
-                        printf("%-15s\t\t%f\n", months[i], avgPutCallRatioByMonth(date, ratio, i + 1));
-                    break;
-                case 5:
-                    printf("Enter the year you would like to calculate the average put/call ratio of: ");
-                    scanf("%d", &selectYear);
-                    printf("The average put/call ratio for 20%d was: %f", selectYear, avgPutCallRatioByYear(date, ratio, selectYear));
-                    break;
-                case 8:
-                    // conclusions drawn from the data
-                    //char netChangeText[1][9] = {""}; 
+                    // Max submenu
+                    case 1:
+                        displayMaxMenu();
+                        printf("\nPlease enter a new selection: ");
+                        scanf("%d", &selection);
 
-                    //(ratio[NUM_DATA_LINES-1] - ratio[0]) > 1 ? netChangeText[0] = "increase" : netChangeText = "decrease"; 
-                    
-                    //printf("Over the last decade, the SPY put/call ratio had a net %s of %.2f\n", netChangeText, ratio[NUM_DATA_LINES-1] - ratio[0]);
+                        // Handles maximum submenu
+                        switch(selection)
+                        {
+                            case 1:
+                                printf("\nThe maximum SPY put volume was seen on %s at %d.\n",
+                                       dates[maxVolume(putVolumes)],
+                                       putVolumes[maxVolume(putVolumes)]);
+                                break;
+                            case 2:
+                                printf("\nThe maximum SPY call volume was seen on %s at %d.\n",
+                                       dates[maxVolume(callVolumes)],
+                                       callVolumes[maxVolume(callVolumes)]);
+                                break;
+                            case 3:
+                                printf("\nThe maximum total SPY options volume was seen on %s at %d.\n",
+                                       dates[maxVolume(totalVolumes)],
+                                       totalVolumes[maxVolume(totalVolumes)]);
+                                break;
+                            case 4:
+                                printf("\nThe maximum SPY put/call ratio volume on %s at %.2f.\n",
+                                       dates[maxRatio(ratios)],
+                                       ratios[maxRatio(ratios)]);
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
+                    // Min submenu
+                    case 2:
+                        displayMinMenu();
+                        printf("\nPlease enter a new selection: ");
+                        scanf("%d", &selection);
 
-                    break;
-                case 9:
-                    displayMainMenu();
-                    break;
-                case 10:
-                    printf("Thank you for playing!\n");
-                    break;
-                default:
-                    break;
-                }
-            }
+                        // Handles minimum submenu
+                        switch(selection)
+                        {
+                            case 1:
+                                printf("\nThe minimum SPY put volume was seen on %s at %d.\n",
+                                       dates[minVolume(putVolumes)],
+                                       putVolumes[minVolume(putVolumes)]);
+                                break;
+                            case 2:
+                                printf("\nThe minimum SPY call volume was seen on %s at %d.\n",
+                                       dates[minVolume(callVolumes)],
+                                       callVolumes[minVolume(callVolumes)]);
+                                break;
+                            case 3:
+                                printf("\nThe minimum total SPY options volume was seen on %s at %d.\n",
+                                       dates[minVolume(totalVolumes)],
+                                       totalVolumes[minVolume(totalVolumes)]);
+                                break;
+                            case 4:
+                                printf("\nThe minimum SPY put/call ratio volume on %s at %.2f.\n",
+                                       dates[minRatio(ratios)],
+                                       ratios[minRatio(ratios)]);
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
+                    // Average put/call ratio over all months
+                    case 3:
+                        printf("\n--Average Put/Call Ratio by All Months--\n");
+                        for(int i = 0; i < 12; i++)
+                        {
+                            printf("%-15s\t\t%f\n", months[i], avgPutCallRatioByMonth(dates, ratios, i + 1));
+                        }
+                        break;
+                    // Average put/call ratio by select month
+                    case 4:
+                        printf("\nEnter the month you would like view the average put/call ratio of (1-12): ");
+                        scanf("%d", &selectMonth);
+                        printf("\nThe average put/call ratio for %s was: %f", months[selectMonth - 1],
+                               avgPutCallRatioByMonth(dates, ratios, selectMonth));
+                        break;
+                    // Average put/call ratio by select year
+                    case 5:
+                        printf("\nEnter the year you would like to calculate the average put/call ratio of (10-19): ");
+                        scanf("%d", &selectYear);
+                        printf("\nThe average put/call ratio for 20%d was: %f", selectYear,
+                               avgPutCallRatioByYear(dates, ratios, selectYear));
+                        break;
+                    // Conclusions drawn from the data on market
+                    case 6:
+                        break;
+                    // Quit
+                    case 7:
+                        printf("\n\n\n****** Thank you for playing! ******\n\n\n");
+                        break;
+                    default:
+                        break;
+                } // End switch
+            } // End if
             else
             {
                 printf("Invalid input!");
             }
-        } while (selection != 9);
-
-        printf("The minimum put/call ratio occured on %s at %0.2f\n", date[minRatio(ratio)], ratio[minRatio(ratio)]);
-        printf("The maximum put/call ratio occured on %s at %0.2f\n", date[maxRatio(ratio)], ratio[maxRatio(ratio)]);
-        printf("\nAverage Put/Call Ratio: %f\n\n", avgPutCallRatioByYear(date, ratio, 12));
-    }
+        } while (selection != 7);
+    } // End else
 
     return 0;
 }
 
-/** Function Definitions */
+/*************************************************** Function Definitions */
 
 /**
  * @brief Displays the program's main menu.
@@ -131,15 +195,14 @@ int main()
  * @return void
  */
 void displayMainMenu(void) {
-    printf("\nSPY Statistics Menu\n");
+    printf("\n\n\nSPY Statistics Menu\n");
     printf("   (1) Maximum\n");
     printf("   (2) Minimum\n");
     printf("   (3) Average by All Months\n");
     printf("   (4) Average by Select Month\n");
     printf("   (5) Average by Select Year\n");
-    printf("   (8) 2010-2019 Summary & Trends\n");
-    printf("   (9) Redisplay Menu\n");
-    printf("  (10) Quit\n");
+    printf("   (6) 2010-2019 Summary & Trends\n");
+    printf("   (7) Quit\n");
 }
 
 
@@ -153,6 +216,7 @@ void displayMaxMenu(void) {
     printf("   (1) SPY Put Volume\n");
     printf("   (2) SPY Call Volume\n");
     printf("   (3) Total SPY Options Volume\n");
+    printf("   (4) Put/Call Ratio\n");
 }
 
 
@@ -166,6 +230,7 @@ void displayMinMenu(void) {
     printf("   (1) SPY Put Volume\n");
     printf("   (2) SPY Call Volume\n");
     printf("   (3) Total SPY Options Volume\n");
+    printf("   (4) Put/Call Ratio\n");
 }
 
 
@@ -249,7 +314,7 @@ float avgPutCallRatioByMonth(char dates[][10], float ratios[], int month)  {
  */
 int maxVolume(int volume[]){
     int max = volume[0];
-    int maxIndex = 0; 
+    int maxIndex = 0;
 
     for(int i = 0; i < NUM_DATA_LINES; i++){
         if(volume[i] > max){
@@ -270,7 +335,7 @@ int maxVolume(int volume[]){
  */
 int minVolume(int volume[]){
     int min = volume[0];
-    int minIndex = 0; 
+    int minIndex = 0;
 
     for(int i = 0; i < NUM_DATA_LINES; i++){
         if(volume[i] < min){
@@ -285,17 +350,16 @@ int minVolume(int volume[]){
 /**
  * @brief Finds index of maximum put/call ratio
  *
- * @param  float volume[]: array of put/call/total ratio
- * @param  int lines:      total number of dates
+ * @param  float volume[]: array of put/call ratios
  * @return int maxIndex: index of maximum
  */
 int maxRatio(float ratio[]){
-    float max = ratio[0]; 
+    float max = ratio[0];
     int maxIndex = 0;
 
     for(int i = 0; i < NUM_DATA_LINES; i++){
         if(ratio[i] > max){
-            max = ratio[i]; 
+            max = ratio[i];
             maxIndex = i;
         }
     }
@@ -306,17 +370,16 @@ int maxRatio(float ratio[]){
 /**
  * @brief Finds index of minimum put/call ratio
  *
- * @param  float volume[]: array of put/call/total ratio
- * @param  int lines:      total number of dates
+ * @param  float ratio[]: array of put/call ratios
  * @return int minIndex: index of minimum
  */
 int minRatio(float ratio[]){
     float min = ratio[0];
-    int minIndex = 0; 
+    int minIndex = 0;
 
     for(int i = 0; i < NUM_DATA_LINES; i++){
         if(ratio[i] < min){
-            min = ratio[i]; 
+            min = ratio[i];
             minIndex = i;
         }
     }
