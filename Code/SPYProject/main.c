@@ -76,7 +76,7 @@ int main()
             fflush(stdin);
             scanf("%d", &selection);
 
-            if (selection >= 1 && selection <= 7)
+            if (selection >= 1 && selection <= 8)
             {
                 switch(selection)
                 {
