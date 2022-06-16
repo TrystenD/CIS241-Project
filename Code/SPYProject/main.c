@@ -4,7 +4,7 @@
  *        statistical calculations to make inferences
  *        on the state of the market.
  *
- * @author Trysten Dembeck
+ * @author Trysten Dembeck, JP Palacios
  *
  * @file main.c
  *
@@ -72,6 +72,7 @@ int main()
         do {
             displayMainMenu();
             printf("\nPlease enter a new selection: ");
+            fflush(stdin);
             scanf("%d", &selection);
 
             if (selection >= 1 && selection <= 7)
@@ -168,6 +169,8 @@ int main()
                         break;
                     // Conclusions drawn from the data on market
                     case 6:
+
+
                         break;
                     // Quit
                     case 7:
