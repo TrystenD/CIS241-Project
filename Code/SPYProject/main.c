@@ -21,13 +21,13 @@
 
 /** Function Prototypes */
 void promptMenu(void);
-int maxRatio(float ratio[], int lines); // remove lines as arg
-int minRatio(float ratio[], int lines);
+int maxRatio(float ratio[]); // remove lines as arg
+int minRatio(float ratio[]); 
+int maxVolume(int volume[]);
+int minVolume(int volume[]);
 void displayMainMenu(void);
 void displayMaxMenu(void);
 void displayMinMenu(void);
-int maxVolume(int volume[], int lines);
-int minVolume(int volume[], int lines);
 float avgPutCallRatioByYear(char dates[][10], float ratios[], int year);
 float avgPutCallRatioByMonth(char dates[][10], float ratios[], int month);
 
@@ -55,8 +55,7 @@ int main()
     {
         fscanf(fp, "%*[^\n]\n");    // Skips the first line in the text file
         while(fscanf(fp, "%[^,],%f,%d,%d,%d\n", date[lines], &ratio[lines], &putVolume[lines], &callVolume[lines], &totalVolume[lines]) != EOF){  // read each line
-            //printf("%s,%.2f,%d,%d,%d\n", date[lines], ratio[lines], putVolume[lines], callVolume[lines], totalVolume[lines]);
-            lines++;
+            lines++; // flagged for removal since we have macro
         }
 
 
@@ -113,8 +112,8 @@ int main()
             }
         } while (selection != 9);
 
-        printf("The minimum put/call ratio occured on %s at %0.2f\n", date[minRatio(ratio, lines)], ratio[minRatio(ratio, lines)]);
-        printf("The maximum put/call ratio occured on %s at %0.2f\n", date[maxRatio(ratio, lines)], ratio[maxRatio(ratio, lines)]);
+        printf("The minimum put/call ratio occured on %s at %0.2f\n", date[minRatio(ratio)], ratio[minRatio(ratio)]);
+        printf("The maximum put/call ratio occured on %s at %0.2f\n", date[maxRatio(ratio)], ratio[maxRatio(ratio)]);
         printf("\nAverage Put/Call Ratio: %f\n\n", avgPutCallRatioByYear(date, ratio, 12));
     }
 
@@ -244,11 +243,11 @@ float avgPutCallRatioByMonth(char dates[][10], float ratios[], int month)  {
  * @param  int lines:    total number of dates
  * @return int maxIndex: index of maximum
  */
-int maxVolume(int volume[], int lines){
+int maxVolume(int volume[]){
     int max = volume[0];
     int maxIndex = 0;
 
-    for(int i = 0; i < lines; i++){
+    for(int i = 0; i < NUM_DATA_LINES; i++){
         if(volume[i] > max){
             max = volume[i];
             maxIndex = i;
@@ -265,11 +264,11 @@ int maxVolume(int volume[], int lines){
  * @param  int lines:    total number of dates
  * @return int minIndex: index of minimum
  */
-int minVolume(int volume[], int lines){
+int minVolume(int volume[]){
     int min = volume[0];
     int minIndex = 0;
 
-    for(int i = 0; i < lines; i++){
+    for(int i = 0; i < NUM_DATA_LINES; i++){
         if(volume[i] < min){
             min = volume[i];
             minIndex = i;
@@ -286,13 +285,13 @@ int minVolume(int volume[], int lines){
  * @param  int lines:      total number of dates
  * @return int maxIndex: index of maximum
  */
-int maxRatio(float ratio[], int lines){
-    float max = (int)(100*ratio[0]);
+int maxRatio(float ratio[]){
+    float max = ratio[0]; 
     int maxIndex = 0;
 
-    for(int i = 0; i < lines; i++){
-        if((int)(100*ratio[i]) > max){
-            max = (int)(100*ratio[i]);
+    for(int i = 0; i < NUM_DATA_LINES; i++){
+        if(ratio[i] > max){
+            max = ratio[i]; 
             maxIndex = i;
         }
     }
@@ -307,13 +306,13 @@ int maxRatio(float ratio[], int lines){
  * @param  int lines:      total number of dates
  * @return int minIndex: index of minimum
  */
-int minRatio(float ratio[], int lines){
-    int min = (int)(100*ratio[0]);
-    int minIndex = 0;
+int minRatio(float ratio[]){
+    float min = ratio[0];
+    int minIndex = 0; 
 
-    for(int i = 0; i < lines; i++){
-        if((int)(100*ratio[i]) < min){
-            min = (int)(100*ratio[i]);
+    for(int i = 0; i < NUM_DATA_LINES; i++){
+        if(ratio[i] < min){
+            min = ratio[i]; 
             minIndex = i;
         }
     }
