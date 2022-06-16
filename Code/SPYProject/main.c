@@ -69,7 +69,7 @@ int main()
             printf("\nPlease enter a new selection: ");
             scanf("%d", &selection);
 
-            if (selection > 0 && selection < 10)
+            if (selection > 0 && selection < 11)
             {
                 // Call Functions
                 switch(selection)
@@ -96,6 +96,9 @@ int main()
                     displayMainMenu();
                     break;
                 case 9:
+                    // conclusions drawn from the data
+                    break;
+                case 10:
                     printf("Thank you for playing!\n");
                     break;
                 default:
@@ -131,7 +134,8 @@ void displayMainMenu(void) {
     printf("   (4) Average by Select Month\n");
     printf("   (5) Average by Select Year\n");
     printf("   (8) Redisplay Menu\n");
-    printf("   (9) Quit\n");
+    printf("   (9) 2010-2019 Summary & Trends\n");
+    printf("  (10) Quit\n");
 }
 
 
