@@ -153,27 +153,35 @@ int main()
                             printf("%-15s\t\t%f\n", months[i], avgPutCallRatioByMonth(dates, ratios, i + 1));
                         }
                         break;
+                    // Average put/call ratio over all years
+                    case 4: 
+                        printf("\n--Average Put/Call Ratio by All Years--\n");
+                        for(int i = 10; i < 20; i++)
+                        {
+                            printf("%-15d\t\t%f\n", (2000 + i), avgPutCallRatioByYear(dates, ratios, i));
+                        }
+                        break;
                     // Average put/call ratio by select month
-                    case 4:
+                    case 5:
                         printf("\nEnter the month you would like view the average put/call ratio of (1-12): ");
                         scanf("%d", &selectMonth);
                         printf("\nThe average put/call ratio for %s was: %f", months[selectMonth - 1],
                                avgPutCallRatioByMonth(dates, ratios, selectMonth));
                         break;
                     // Average put/call ratio by select year
-                    case 5:
+                    case 6:
                         printf("\nEnter the year you would like to calculate the average put/call ratio of (10-19): ");
                         scanf("%d", &selectYear);
                         printf("\nThe average put/call ratio for 20%d was: %f", selectYear,
                                avgPutCallRatioByYear(dates, ratios, selectYear));
                         break;
                     // Conclusions drawn from the data on market
-                    case 6:
+                    case 7:
 
 
                         break;
                     // Quit
-                    case 7:
+                    case 8:
                         printf("\n\n\n****** Thank you for playing! ******\n\n\n");
                         break;
                     default:
@@ -184,7 +192,7 @@ int main()
             {
                 printf("Invalid input!");
             }
-        } while (selection != 7);
+        } while (selection != 8);
     } // End else
 
     return 0;
@@ -202,10 +210,11 @@ void displayMainMenu(void) {
     printf("   (1) Maximum\n");
     printf("   (2) Minimum\n");
     printf("   (3) Average by All Months\n");
-    printf("   (4) Average by Select Month\n");
-    printf("   (5) Average by Select Year\n");
-    printf("   (6) 2010-2019 Summary & Trends\n");
-    printf("   (7) Quit\n");
+    printf("   (4) Average by All Years\n");
+    printf("   (5) Average by Select Month\n");
+    printf("   (6) Average by Select Year\n");
+    printf("   (7) 2010-2019 Summary & Trends\n");
+    printf("   (8) Quit\n");
 }
 
 
