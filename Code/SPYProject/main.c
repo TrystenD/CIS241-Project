@@ -81,11 +81,9 @@ int main()
                 case 3:
                     break;
                 case 4:
-
                     printf("--Average Put/Call Ratio by Month--\n");
                     for(int i = 0; i < 12; i++)
                         printf("%-15s\t\t%f\n", months[i], avgPutCallRatioByMonth(date, ratio, i + 1));
-
                     break;
                 case 5:
                     printf("Enter the year you would like to calculate the average put/call ratio of: ");
@@ -93,10 +91,16 @@ int main()
                     printf("The average put/call ratio for 20%d was: %f", selectYear, avgPutCallRatioByYear(date, ratio, selectYear));
                     break;
                 case 8:
-                    displayMainMenu();
+                    // conclusions drawn from the data
+                    //char netChangeText[1][9] = {""}; 
+
+                    //(ratio[NUM_DATA_LINES-1] - ratio[0]) > 1 ? netChangeText[0] = "increase" : netChangeText = "decrease"; 
+                    
+                    //printf("Over the last decade, the SPY put/call ratio had a net %s of %.2f\n", netChangeText, ratio[NUM_DATA_LINES-1] - ratio[0]);
+
                     break;
                 case 9:
-                    // conclusions drawn from the data
+                    displayMainMenu();
                     break;
                 case 10:
                     printf("Thank you for playing!\n");
@@ -133,8 +137,8 @@ void displayMainMenu(void) {
     printf("   (3) Average by All Months\n");
     printf("   (4) Average by Select Month\n");
     printf("   (5) Average by Select Year\n");
-    printf("   (8) Redisplay Menu\n");
-    printf("   (9) 2010-2019 Summary & Trends\n");
+    printf("   (8) 2010-2019 Summary & Trends\n");
+    printf("   (9) Redisplay Menu\n");
     printf("  (10) Quit\n");
 }
 
