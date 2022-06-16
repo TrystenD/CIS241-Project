@@ -48,6 +48,7 @@ int main()
     int putVolumes[NUM_DATA_LINES];   // Put volumes column of data file
     int callVolumes[NUM_DATA_LINES];  // Call volumes column of data file
     int totalVolumes[NUM_DATA_LINES]; // Total SPY options volyme (Puts + Calls)
+    float avgTotalYearRatio;          // Put/Call ratio average between 2010-2019 (analysis purposes)
 
     FILE *fp;                         // Pointer to data file
 
@@ -178,7 +179,33 @@ int main()
                     // Conclusions drawn from the data on market
                     case 7:
 
+                        printf("\n--2010-2019 Summary & Trends--\n\n");
+                        printf("From this data, the following trends were observed:\n"); 
 
+                        // Average for all years
+                        for(int i = 10; i < 20; i++)
+                        {
+                            avgTotalYearRatio += (avgPutCallRatioByYear(dates, ratios, i) / 10);
+                        }
+                        printf("\tThe put/call ratio between 2010 and 2019 was %.2f\n\n", avgTotalYearRatio); 
+
+                        printf("\tApril, November, and December had the lowest Put/Call Ratio ");
+                        printf("of %.2f, %.2f, %.2f, respectively. \n\tThis coincide with three major U.S. Holidays of ", 
+                                avgPutCallRatioByMonth(dates, ratios, 4),
+                                avgPutCallRatioByMonth(dates, ratios, 11), 
+                                avgPutCallRatioByMonth(dates, ratios, 12));
+                        printf(" Easter, Thanksgiving, and Christmas.\n");
+                        printf("\tThese months would be a good time to invest in the SPY ETF.\n\n");
+
+                        printf("\tThe years 2010-2013 indicate a bull market as the yearly average Put/Call Ratio fell from %.2f to %.2f.\n\n", 
+                                avgPutCallRatioByYear(dates, ratios, 10), 
+                                avgPutCallRatioByYear(dates, ratios, 13));
+                        printf("\tThe years 2013-2015 indicate a bear market as the yearly average Put/Call Ratio rose from %.2f to %.2f.\n\n", 
+                                avgPutCallRatioByYear(dates, ratios, 13), 
+                                avgPutCallRatioByYear(dates, ratios, 15));
+                        printf("\tThe years 2015-2019 indicate a bull market as the yearly average Put/Call Ratio fell from %.2f to %.2f.\n\n", 
+                                avgPutCallRatioByYear(dates, ratios, 15), 
+                                avgPutCallRatioByYear(dates, ratios, 19));
                         break;
                     // Quit
                     case 8:
