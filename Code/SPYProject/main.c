@@ -63,7 +63,7 @@ int main()
         displayMainMenu();
 
         do {
-            printf("\nPlease enter a selection: ");
+            printf("\nPlease enter a new selection: ");
             scanf("%d", &selection);
 
             if (selection > 0 && selection < 10)
@@ -279,7 +279,8 @@ int minVolume(int volume[], int lines){
  * @return int max: index of maximum
  */
 int maxRatio(float ratio[], int lines){
-    int max = (int)(100*ratio[0]);
+    int max;
+    max = (int)(100*ratio[0]);
 
     for(int i = 0; i < lines; i++)
         if((int)(100*ratio[i]) > max)
