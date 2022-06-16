@@ -62,7 +62,7 @@ int main()
         displayMainMenu();
 
         do {
-            printf("\nPlease enter a selection: ");
+            printf("\nPlease enter a new selection: ");
             scanf("%d", &selection);
 
             if (selection > 0 && selection < 10)
@@ -245,7 +245,7 @@ float avgPutCallRatioByMonth(char dates[][10], float ratios[], int month)  {
  */
 int maxVolume(int volume[]){
     int max = volume[0];
-    int maxIndex = 0; 
+    int maxIndex = 0;
 
     for(int i = 0; i < NUM_DATA_LINES; i++){
         if(volume[i] > max){
@@ -266,7 +266,7 @@ int maxVolume(int volume[]){
  */
 int minVolume(int volume[]){
     int min = volume[0];
-    int minIndex = 0; 
+    int minIndex = 0;
 
     for(int i = 0; i < NUM_DATA_LINES; i++){
         if(volume[i] < min){
