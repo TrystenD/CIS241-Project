@@ -19,20 +19,25 @@
 
 #define NUM_DATA_LINES 2330
 
-
+/** Function Prototypes */
 void promptMenu(void);
 int maxRatio(float ratio[], int lines); // remove lines as arg
 int minRatio(float ratio[], int lines); 
+void displayMainMenu(void);
+void displayMaxMenu(void);
+void displayMinMenu(void);
 int maxVolume(int volume[], int lines);
 int minVolume(int volume[], int lines);
-
 float avgPutCallRatioByYear(char dates[][10], float ratios[], int year);
-float monthly(char dates[][10], float ratios[], int lines, int month);
+float avgPutCallRatioByMonth(char dates[][10], float ratios[], int month);
 
 int main()
 {
+    int selection = 0;
+    int selectYear;
+    int selectMonth;
 
-    int lines = 0;  // total lines in tex file
+    int lines = 0;  // total lines in text file
 
     char date[NUM_DATA_LINES][10];
     float ratio[NUM_DATA_LINES];
@@ -48,9 +53,6 @@ int main()
     }
     else
     {
-        printf("File opened\n");
-        // File was opened
-
         fscanf(fp, "%*[^\n]\n");    // Skips the first line in the text file
         while(fscanf(fp, "%[^,],%f,%d,%d,%d\n", date[lines], &ratio[lines], &putVolume[lines], &callVolume[lines], &totalVolume[lines]) != EOF){  // read each line
             //printf("%s,%.2f,%d,%d,%d\n", date[lines], ratio[lines], putVolume[lines], callVolume[lines], totalVolume[lines]);
@@ -58,65 +60,110 @@ int main()
         }
 
 
-        promptMenu();
-        printf("The minimum put/call ratio was on %s at %0.2f\n", date[minRatio(ratio, lines)], ratio[minRatio(ratio, lines)]);
-        printf("The maximum put/call ratio was on %s at %0.2f\n", date[maxRatio(ratio, lines)], ratio[maxRatio(ratio, lines)]);
+        displayMainMenu();
+
+        do {
+            printf("\nPlease enter a selection: ");
+            scanf("%d", &selection);
+
+            if (selection > 0 && selection < 10)
+            {
+                // Call Functions
+                switch(selection)
+                {
+                case 1:
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    printf("--Average Put/Call Ratio by Month--\n");
+                    printf("%-15s\t%f\n", "January:",avgPutCallRatioByMonth(date,ratio,1));
+                    printf("%-15s\t%f\n", "February:",avgPutCallRatioByMonth(date,ratio,2));
+                    printf("%-15s\t%f\n", "March:",avgPutCallRatioByMonth(date,ratio,3));
+                    printf("%-15s\t%f\n", "April:",avgPutCallRatioByMonth(date,ratio,4));
+                    printf("%-15s\t%f\n", "May:",avgPutCallRatioByMonth(date,ratio,5));
+                    printf("%-15s\t%f\n", "June:",avgPutCallRatioByMonth(date,ratio,6));
+                    printf("%-15s\t%f\n", "July:",avgPutCallRatioByMonth(date,ratio,7));
+                    printf("%-15s\t%f\n", "August:",avgPutCallRatioByMonth(date,ratio,8));
+                    printf("%-15s\t%f\n", "September:",avgPutCallRatioByMonth(date,ratio,9));
+                    printf("%-15s\t%f\n", "October:",avgPutCallRatioByMonth(date,ratio,10));
+                    printf("%-15s\t%f\n", "November:",avgPutCallRatioByMonth(date,ratio,11));
+                    printf("%-15s\t%f\n", "December:",avgPutCallRatioByMonth(date,ratio,12));
+                    break;
+                case 5:
+                    printf("Enter the year you would like to calculate the average put/call ratio of: ");
+                    scanf("%d", &selectYear);
+                    printf("The average put/call ratio for 20%d was: %f", selectYear, avgPutCallRatioByYear(date, ratio, selectYear));
+                    break;
+                case 8:
+                    displayMainMenu();
+                    break;
+                case 9:
+                    printf("Thank you for playing!\n");
+                    break;
+                default:
+                    break;
+                }
+            }
+            else
+            {
+                printf("Invalid input!");
+            }
+        } while (selection != 9);
+
+        printf("The minimum put/call ratio occured on %s at %0.2f\n", date[minRatio(ratio, lines)], ratio[minRatio(ratio, lines)]);
+        printf("The maximum put/call ratio occured on %s at %0.2f\n", date[maxRatio(ratio, lines)], ratio[maxRatio(ratio, lines)]);
         printf("\nAverage Put/Call Ratio: %f\n\n", avgPutCallRatioByYear(date, ratio, 12));
-
-        printf("--Average Put/Call Ratio by Month--\n");
-        printf("%-15s\t%f\n", "January:",monthly(date,ratio,lines,1));
-        printf("%-15s\t%f\n", "February:",monthly(date,ratio,lines,2));
-        printf("%-15s\t%f\n", "March:",monthly(date,ratio,lines,3));
-        printf("%-15s\t%f\n", "April:",monthly(date,ratio,lines,4));
-        printf("%-15s\t%f\n", "May:",monthly(date,ratio,lines,5));
-        printf("%-15s\t%f\n", "June:",monthly(date,ratio,lines,6));
-        printf("%-15s\t%f\n", "July:",monthly(date,ratio,lines,7));
-        printf("%-15s\t%f\n", "August:",monthly(date,ratio,lines,8));
-        printf("%-15s\t%f\n", "September:",monthly(date,ratio,lines,9));
-        printf("%-15s\t%f\n", "October:",monthly(date,ratio,lines,10));
-        printf("%-15s\t%f\n", "November:",monthly(date,ratio,lines,11));
-        printf("%-15s\t%f\n", "December:",monthly(date,ratio,lines,12));
-
-
-
     }
 
     return 0;
 }
 
+/** Function Definitions */
 
 /**
- * @brief Prints a menu for the user to reference and select
- *        what information they want to see
+ * @brief Displays the program's main menu.
  *
- * @param
- *       void
- * @return
- *       void
+ * @return void
  */
-void promptMenu(void) {
-    char *spacer = "   ";
-    int selection = 0;
-
-    printf("--------------------------\n");
-    printf("|%sSPY 10-Year Review%s|\n", spacer, spacer);
-    printf("--------------------------\n");
-    printf("  SPY Ratio\n", spacer);
-    printf("%s(1) Maximum\n", spacer);
-    printf("%s(2) Minimum\n", spacer);
-    printf("%s(3) Average\n", spacer);
-
-    do {
-        printf("\nPlease enter a selection: ");
-        scanf("%d", &selection);
-
-        if (selection > 0 && selection < 4)
-            break;
-        else
-            printf("Invalid input!");
-    } while (1);
+void displayMainMenu(void) {
+    printf("\nSPY Statistics Menu\n");
+    printf("   (1) Maximum\n");
+    printf("   (2) Minimum\n");
+    printf("   (3) Average by All Months\n");
+    printf("   (4) Average by Select Month\n");
+    printf("   (5) Average by Select Year\n");
+    printf("   (8) Redisplay Menu\n");
+    printf("   (9) Quit\n");
 }
 
+
+/**
+ * @brief Displays the find-maximum submenu.
+ *
+ * @return void
+ */
+void displayMaxMenu(void) {
+    printf("\nFind Maximum Menu\n");
+    printf("   (1) SPY Put Volume\n");
+    printf("   (2) SPY Call Volume\n");
+    printf("   (3) Total SPY Options Volume\n");
+}
+
+
+/**
+ * @brief Displays the find-minimum submenu.
+ *
+ * @return void
+ */
+void displayMinMenu(void) {
+    printf("\nFind Minimum Menu\n");
+    printf("   (1) SPY Put Volume\n");
+    printf("   (2) SPY Call Volume\n");
+    printf("   (3) Total SPY Options Volume\n");
+}
 
 
 /**
@@ -138,25 +185,24 @@ float avgPutCallRatioByYear(char dates[][10], float ratios[], int year)
     float ratioSum = 0;
     int ratiosCnt = 0;
 
+    // Go through all data and determine
     for(i = 0; i < NUM_DATA_LINES; i++)
     {
         strcpy(tempDate, dates[i]);     // Make copy of date string
-        token = strtok(tempDate, "/");  // Tokenize string until token is year
-        token = strtok(NULL, "/");
-        token = strtok(NULL, "/");
+        token = strtok(tempDate, "/");  // Tokenize to day (ignore)
+        token = strtok(NULL, "/");      // Tokenize to month (ignore)
+        token = strtok(NULL, "/");      // Token is year
 
         yearToken = atoi(token);        // Convert string year to int year
-        //printf("%d\n", yearToken);
 
+        // Add ratio to sum if year in file is same as selected year
         if(yearToken == year)
         {
             ratioSum += ratios[i];
             ratiosCnt++;
         }
     }
-
     return (ratioSum / ratiosCnt);
-
 }
 
 
@@ -170,28 +216,30 @@ float avgPutCallRatioByYear(char dates[][10], float ratios[], int year)
  *
  * @return float: average put/call ratio for month
  */
-float monthly(char dates[][10], float ratios[], int lines, int month)  {
+float avgPutCallRatioByMonth(char dates[][10], float ratios[], int month)  {
     char *token;
-    char string[10];
-    float ratioAvg = 0;
-    int monthToken,numDates = 0;
+    char tempDate[10];
+    float ratioSum = 0;
+    int monthToken,ratiosCnt = 0;
 
-    for (int i = 0; i < lines; i++) {
-        strcpy(string,dates[i]);
-        token = strtok(string, "/");
-        monthToken = atoi(token);
-        if (monthToken == month)    {
-            ratioAvg += ratios[i];
-            numDates++;
+    for (int i = 0; i < NUM_DATA_LINES; i++) {
+        strcpy(tempDate, dates[i]);
+        token = strtok(tempDate, "/");
+
+        monthToken = atoi(token);   // Convert string month to int month
+
+        if (monthToken == month) {
+            ratioSum += ratios[i];
+            ratiosCnt++;
         }
     }
 
-    return (ratioAvg/numDates);
+    return (ratioSum / ratiosCnt);
 }
 
 /**
  * @brief Finds index of maximum put/call volumes
- * 
+ *
  * @param  int volume[]: array of put/call/total volumes
  * @param  int lines:    total number of dates
  * @return int maxIndex: index of maximum
@@ -212,7 +260,7 @@ int maxVolume(int volume[], int lines){
 
 /**
  * @brief Finds index of minimum put/call volumes
- * 
+ *
  * @param  int volume[]: array of put/call/total volumes
  * @param  int lines:    total number of dates
  * @return int minIndex: index of minimum
@@ -233,7 +281,7 @@ int minVolume(int volume[], int lines){
 
 /**
  * @brief Finds index of maximum put/call ratio
- * 
+ *
  * @param  float volume[]: array of put/call/total ratio
  * @param  int lines:      total number of dates
  * @return int maxIndex: index of maximum
@@ -254,7 +302,7 @@ int maxRatio(float ratio[], int lines){
 
 /**
  * @brief Finds index of minimum put/call ratio
- * 
+ *
  * @param  float volume[]: array of put/call/total ratio
  * @param  int lines:      total number of dates
  * @return int minIndex: index of minimum
@@ -271,4 +319,5 @@ int minRatio(float ratio[], int lines){
     }
 
     return minIndex;
-}
+  }
+
