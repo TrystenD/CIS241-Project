@@ -21,11 +21,11 @@
 
 /** Function Prototypes */
 void promptMenu(void);
+int maxRatio(float ratio[], int lines); // remove lines as arg
+int minRatio(float ratio[], int lines); 
 void displayMainMenu(void);
 void displayMaxMenu(void);
 void displayMinMenu(void);
-int maxRatio(float ratio[], int lines);
-int minRatio(float ratio[], int lines);
 int maxVolume(int volume[], int lines);
 int minVolume(int volume[], int lines);
 float avgPutCallRatioByYear(char dates[][10], float ratios[], int year);
@@ -242,16 +242,20 @@ float avgPutCallRatioByMonth(char dates[][10], float ratios[], int month)  {
  *
  * @param  int volume[]: array of put/call/total volumes
  * @param  int lines:    total number of dates
- * @return int max: index of maximum
+ * @return int maxIndex: index of maximum
  */
 int maxVolume(int volume[], int lines){
     int max = volume[0];
+    int maxIndex = 0; 
 
-    for(int i = 0; i < lines; i++)
-        if(volume[i] > max)
-            max = i;
+    for(int i = 0; i < lines; i++){
+        if(volume[i] > max){
+            max = volume[i];
+            maxIndex = i;
+        }
+    }
 
-    return max;
+    return maxIndex;
 }
 
 /**
@@ -259,16 +263,20 @@ int maxVolume(int volume[], int lines){
  *
  * @param  int volume[]: array of put/call/total volumes
  * @param  int lines:    total number of dates
- * @return int min: index of minimum
+ * @return int minIndex: index of minimum
  */
 int minVolume(int volume[], int lines){
     int min = volume[0];
+    int minIndex = 0; 
 
-    for(int i = 0; i < lines; i++)
-        if(volume[i] < min)
-            min = i;
+    for(int i = 0; i < lines; i++){
+        if(volume[i] < min){
+            min = volume[i];
+            minIndex = i;
+        }
+    }
 
-    return min;
+    return minIndex;
 }
 
 /**
@@ -276,16 +284,20 @@ int minVolume(int volume[], int lines){
  *
  * @param  float volume[]: array of put/call/total ratio
  * @param  int lines:      total number of dates
- * @return int max: index of maximum
+ * @return int maxIndex: index of maximum
  */
 int maxRatio(float ratio[], int lines){
-    int max = (int)(100*ratio[0]);
+    float max = (int)(100*ratio[0]); 
+    int maxIndex = 0;
 
-    for(int i = 0; i < lines; i++)
-        if((int)(100*ratio[i]) > max)
-            max = i;
+    for(int i = 0; i < lines; i++){
+        if((int)(100*ratio[i]) > max){
+            max = (int)(100*ratio[i]); 
+            maxIndex = i;
+        }
+    }
 
-    return max;
+    return maxIndex;
 }
 
 /**
@@ -293,14 +305,19 @@ int maxRatio(float ratio[], int lines){
  *
  * @param  float volume[]: array of put/call/total ratio
  * @param  int lines:      total number of dates
- * @return int min: index of minimum
+ * @return int minIndex: index of minimum
  */
 int minRatio(float ratio[], int lines){
     int min = (int)(100*ratio[0]);
+    int minIndex = 0; 
 
-    for(int i = 0; i < lines; i++)
-        if((int)(100*ratio[i]) < min)
-            min = i;
+    for(int i = 0; i < lines; i++){
+        if((int)(100*ratio[i]) < min){
+            min = (int)(100*ratio[i]); 
+            minIndex = i;
+        }
+    }
 
-    return min;
-}
+    return minIndex;
+  }
+
